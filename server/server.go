@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httputil"
 
 	"github.com/mdlayher/vsock"
 )
@@ -16,6 +17,12 @@ func main() {
 	}
 	defer l.Close()
 	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		b , err := httputil.DumpRequest(r, false)
+		if err != nil {
+			log.Print("WARN: failed to DumpRequest")
+		} else {
+			log.Print(string(b))
+		}
 		fmt.Fprintf(w, "Hello VSOCK\n")
 	}))
 	http.Serve(l, nil)
