@@ -11,30 +11,23 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/Microsoft/go-winio"
-	"github.com/Microsoft/go-winio/pkg/guid"
 )
 
-func vsockDial(ctx context.Context, addr string) (net.Conn, error) {
+func parseUint32(s string) (uint32, error) {
+	v, err := strconv.ParseUint(s, 10, 32)
+	if err != nil {
+		return 0, err
+	}
+	return uint32(v), nil
+}
+
+func dialContext(ctx context.Context, network, addr string) (net.Conn, error) {
 	n := strings.Index(addr, ":")
 	if n == -1 {
 		return nil, fmt.Errorf("no port in %q", addr)
 	}
-	c, sp := addr[:n], addr[n+1:]
-	vmid, err := guid.FromString(c)
-	if err != nil {
-		return nil, fmt.Errorf("invalid VmID/GUID: %w", err)
-	}
-	p, err := strconv.ParseUint(sp, 10, 32)
-	if err != nil {
-		return nil, fmt.Errorf("invalid port: %w", err)
-	}
-	srvid := winio.VsockServiceID(uint32(p))
-	return winio.Dial(ctx, &winio.HvsockAddr{
-		VMID:      vmid,
-		ServiceID: srvid,
-	})
+	scid, sport := addr[:n], addr[n+1:]
+	return vsockDial(ctx, scid, sport)
 }
 
 func main() {
@@ -45,9 +38,7 @@ func main() {
 
 	c := http.Client{
 		Transport: &http.Transport{
-			DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
-				return vsockDial(ctx, addr)
-			},
+			DialContext: dialContext,
 		},
 	}
 
