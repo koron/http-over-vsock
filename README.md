@@ -14,7 +14,7 @@
 
     ```console
     $ cd http-over-vsock
-    $ make encalve-run
+    $ make enclave-run
     ```
 
 3. Build a client and make requests.
