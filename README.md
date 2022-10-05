@@ -1,6 +1,59 @@
 # Demo: HTTP over VSOCK (Hyper-V sockets)
 
-## Overview
+## Getting Started
+
+### Getting Started with AWS Nitro Enclaves
+
+1. Clone this repository.
+
+    ```console
+    $ git clone https://github.com/koron/http-over-vsock.git
+    ```
+
+2. Start a server in Enclave
+
+    ```console
+    $ cd http-over-vsock
+    $ make encalve-run
+    ```
+
+3. Build a client and make requests.
+
+    Build a client
+
+    ```console
+    $ cd http-over-vsock/client
+    $ go build
+    ```
+
+    Run it to make a HTTP request over vsock.
+
+    ```console
+    $ ./clieht http://16:1234/
+    Hello VSOCK (/)
+    ```
+
+    The response will be changed when you change path of request URL.
+
+    ```console
+    $ ./clieht http://16:1234/foo/bar
+    Hello VSOCK (/foo/bar)
+    ```
+
+4. (OPTIONAL) Show server logs
+
+    Open another terminal and run this:
+
+    ```console
+    $ cd http-over-vsock
+    $ make enclave-console
+    ```
+
+    To terminate logs, interrupt with Ctrl-C or so.
+
+See Makefile for details.
+
+### Getting Started with Windows and WSL2
 
 * Host:  Windows 10
 * Guest: WSL2 Ubuntu-22.04
