@@ -17,5 +17,5 @@ func vsockDial(ctx context.Context, scid, sport string) (net.Conn, error) {
 	if err != nil {
 		return nil, fmt.Errorf("invalid port: %w", err)
 	}
-	return vsock.Dial(cid, port, cfg)
+	return vsock.Dial(cid, port, nil)
 }

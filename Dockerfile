@@ -1,4 +1,5 @@
 FROM golang:1.19.2-bullseye AS build-env
+WORKDIR /opt
 COPY go.mod go.sum server/server.go ./
 RUN go install ./server.go
 

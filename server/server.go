@@ -23,7 +23,7 @@ func main() {
 		} else {
 			log.Print(string(b))
 		}
-		fmt.Fprintf(w, "Hello VSOCK\n")
+		fmt.Fprintf(w, "Hello VSOCK (%s)\n", r.URL.Path)
 	}))
 	http.Serve(l, nil)
 }
