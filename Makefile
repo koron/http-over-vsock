@@ -1,6 +1,6 @@
 http-over-vsock.eif: ./server/server.go Dockerfile go.mod go.sum
 	docker build -t http-over-vsock:latest .
-	nitro-cli build-enclave --docker-uri http-over-vsock:latest --output-files $@
+	nitro-cli build-enclave --docker-uri http-over-vsock:latest --output-file $@
 
 .PHONY: enclave-run
 enclave-run: http-over-vsock.eif
