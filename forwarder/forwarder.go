@@ -21,6 +21,7 @@ func parseUint32(s string) uint32 {
 }
 
 func forwarder(ctx0 context.Context, remoteCID, remotePort uint32, clientConn net.Conn) {
+	log.Printf("connecting vsock cid=%d port=%d", remoteCID, remotePort)
 	serverConn, err := vsock.Dial(remoteCID, remotePort, nil)
 	if err != nil {
 		clientConn.Close()
@@ -69,6 +70,8 @@ func serveForwarder(ctx context.Context, localAddr string, remoteCID, remotePort
 			log.Printf("accept failed: %s", err)
 			continue
 		}
+		remoteAddr := clientConn.RemoteAddr().String()
+		log.Printf("accepted from %s", remoteAddr)
 		go forwarder(ctx, remoteCID, remotePort, clientConn)
 	}
 }
