@@ -10,9 +10,14 @@ echo "127.0.0.2	amazon.com" >> /etc/hosts
 echo "127.0.0.3	facebook.com" >> /etc/hosts
 echo "127.0.0.4	twitter.com" >> /etc/hosts
 
-/app/forwarder 127.0.0.1 443 3 8001 &
-/app/forwarder 127.0.0.2 443 3 8002 &
-/app/forwarder 127.0.0.3 443 3 8003 &
-/app/forwarder 127.0.0.4 443 3 8004 &
+python3 /app/traffic_forwarder.py 127.0.0.1 443 3 8001 &
+python3 /app/traffic_forwarder.py 127.0.0.2 443 3 8002 &
+python3 /app/traffic_forwarder.py 127.0.0.3 443 3 8003 &
+python3 /app/traffic_forwarder.py 127.0.0.4 443 3 8004 &
+
+#/app/forwarder 127.0.0.1 443 3 8001 &
+#/app/forwarder 127.0.0.2 443 3 8002 &
+#/app/forwarder 127.0.0.3 443 3 8003 &
+#/app/forwarder 127.0.0.4 443 3 8004 &
 
 exec /app/server2
