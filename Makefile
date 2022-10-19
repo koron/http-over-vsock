@@ -15,3 +15,22 @@ enclave-console:
 enclave-terminate:
 	ENCLAVE_ID=$$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID") && \
 	  [ "$$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id $${ENCLAVE_ID}
+
+
+multiple-forwarder.eif: ./server2/server2.go Dockerfile go.mod go.sum
+	docker build -t multiple-forwarder:latest .
+	nitro-cli build-enclave --docker-uri multiple-forwarder:latest --output-file $@
+
+.PHONY: enclave2-run
+enclave2-run: multiple-forwarder.eif
+	nitro-cli run-enclave --cpu-count 2 --memory 2048 --eif-path multiple-forwarder.eif --debug-mode --enclave-cid 16
+
+.PHONY: enclave2-console
+enclave2-console:
+	ENCLAVE_ID=$$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID") && \
+	  [ "$$ENCLAVE_ID" != "null" ] && nitro-cli console --enclave-id $${ENCLAVE_ID}
+
+.PHONY: enclave2-terminate
+enclave2-terminate:
+	ENCLAVE_ID=$$(nitro-cli describe-enclaves | jq -r ".[0].EnclaveID") && \
+	  [ "$$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id $${ENCLAVE_ID}
