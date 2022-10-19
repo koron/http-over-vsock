@@ -7,6 +7,7 @@ COPY forwarder/ forwarder/
 RUN go install ./server2 ./forwarder
 
 FROM public.ecr.aws/amazonlinux/amazonlinux:2
+RUN yum install iproute -y
 WORKDIR /app
 COPY --from=build-env /go/bin/server2 /go/bin/forwarder ./
 COPY run2.sh ./
