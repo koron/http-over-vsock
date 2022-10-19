@@ -7,12 +7,11 @@ COPY forwarder/ forwarder/
 RUN go install ./server2 ./forwarder
 
 FROM public.ecr.aws/amazonlinux/amazonlinux:2
-RUN yum install iproute python3 -y \
+RUN yum install iproute -y \
   && rm -rf /var/cache/yum/* \
   && yum clean all
 WORKDIR /app
 COPY --from=build-env /go/bin/server2 /go/bin/forwarder ./
 COPY run2.sh ./
-COPY traffic_forwarder.py ./
 RUN chmod +x /app/run2.sh
 CMD ["/app/run2.sh"]

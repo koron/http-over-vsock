@@ -17,7 +17,7 @@ enclave-terminate:
 	  [ "$$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id $${ENCLAVE_ID}
 
 
-multiple-forwarder.eif: ./server2/server2.go ./forwarder/forwarder.go run2.sh traffic_forwarder.py server2.dockerfile go.mod go.sum
+multiple-forwarder.eif: ./server2/server2.go ./forwarder/forwarder.go run2.sh server2.dockerfile go.mod go.sum
 	docker build -f server2.dockerfile -t multiple-forwarder:latest .
 	nitro-cli build-enclave --docker-uri multiple-forwarder:latest --output-file $@
 

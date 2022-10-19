@@ -44,15 +44,15 @@ func main() {
 
 	http.Handle("/google", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		dumpRequest(r)
-		proxyRequest(w, "https://google.com/")
+		proxyRequest(w, "https://www.google.com/")
 	}))
 	http.Handle("/amazon", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		dumpRequest(r)
-		proxyRequest(w, "https://amazon.com/")
+		proxyRequest(w, "https://www.amazon.com/")
 	}))
 	http.Handle("/facebook", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		dumpRequest(r)
-		proxyRequest(w, "https://facebook.com/")
+		proxyRequest(w, "https://www.facebook.com/")
 	}))
 	http.Handle("/twitter", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		dumpRequest(r)
