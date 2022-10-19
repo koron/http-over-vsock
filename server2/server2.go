@@ -22,7 +22,9 @@ func dumpRequest(r *http.Request) {
 
 func proxyRequest(w http.ResponseWriter, url string) {
 	w.Header().Add("proxied-by", "enclave")
+	log.Printf("getting %s", url)
 	r2, err := http.Get(url)
+	log.Printf("got %p", r2)
 	if r2 != nil && r2.Body != nil {
 		defer r2.Body.Close()
 	}
@@ -62,7 +64,7 @@ func main() {
 		fmt.Fprintf(w, "Hello VSOCK (%s)\n", r.URL.Path)
 	}))
 
-	if (disableVsock) {
+	if disableVsock {
 		http.ListenAndServe(":1234", nil)
 		return
 	}
