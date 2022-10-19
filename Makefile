@@ -1,4 +1,4 @@
-http-over-vsock.eif: ./server/server.go Dockerfile go.mod go.sum
+http-over-vsock.eif: ./server/server.go run.sh Dockerfile go.mod go.sum
 	docker build -t http-over-vsock:latest .
 	nitro-cli build-enclave --docker-uri http-over-vsock:latest --output-file $@
 
@@ -17,7 +17,7 @@ enclave-terminate:
 	  [ "$$ENCLAVE_ID" != "null" ] && nitro-cli terminate-enclave --enclave-id $${ENCLAVE_ID}
 
 
-multiple-forwarder.eif: ./server2/server2.go server2.dockerfile go.mod go.sum
+multiple-forwarder.eif: ./server2/server2.go run2.sh server2.dockerfile go.mod go.sum
 	docker build -f server2.dockerfile -t multiple-forwarder:latest .
 	nitro-cli build-enclave --docker-uri multiple-forwarder:latest --output-file $@
 
