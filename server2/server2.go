@@ -23,7 +23,7 @@ func dumpRequest(r *http.Request) {
 func proxyRequest(w http.ResponseWriter, url string) {
 	w.Header().Add("proxied-by", "enclave")
 	r2, err := http.Get(url)
-	if r2.Body != nil {
+	if r2 != nil && r2.Body != nil {
 		defer r2.Body.Close()
 	}
 	if err != nil {
