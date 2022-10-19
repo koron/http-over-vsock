@@ -65,6 +65,7 @@ func serveForwarder(ctx context.Context, localAddr string, remoteCID, remotePort
 	}
 	defer l.Close()
 	for {
+		log.Printf("accepting on %s", localAddr)
 		clientConn, err := l.Accept()
 		if err != nil {
 			log.Printf("accept failed: %s", err)
