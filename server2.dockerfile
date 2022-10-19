@@ -11,4 +11,4 @@ WORKDIR /app
 COPY --from=build-env /go/bin/server2 /go/bin/forwarder ./
 COPY run2.sh ./
 RUN chmod +x /app/run2.sh
-CMD ["/app/run.sh"]
+CMD ["/app/run2.sh"]
