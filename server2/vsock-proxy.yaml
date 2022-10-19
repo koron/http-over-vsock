@@ -1,0 +1,5 @@
+allowlist:
+- { address: www.google.com, port: 443 }
+- { address: www.amazon.com, port: 443 }
+- { address: www.facebook.com, port: 443 }
+- { address: twitter.com, port: 443 }
