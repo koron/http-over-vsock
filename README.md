@@ -133,10 +133,10 @@ Enclave内から複数のホストへリクエストを転送するサンプル�
 
     You can GET from Google, Amazon, Facebook, and Twitter.
 
-    * Google <./clieht http://16:1234/google>
-    * Amazon <./clieht http://16:1234/amazon>
-    * Facebook <./clieht http://16:1234/facebook>
-    * Twitter <./clieht http://16:1234/twitter>
+    * Google   - `./clieht http://16:1234/google`
+    * Amazon   - `./clieht http://16:1234/amazon`
+    * Facebook - `./clieht http://16:1234/facebook`
+    * Twitter  - `./clieht http://16:1234/twitter`
 
 5. (OPTIONAL) Show server logs
 
