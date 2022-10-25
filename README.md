@@ -84,6 +84,86 @@ See Makefile for details.
     > .\client.exe http://C34EC814-C4A9-411C-BF5D-559529ECA7AB:1234
     ```
 
+## Multiple hosts forwarder on AWS
+
+Enclave内から複数のホストへリクエストを転送するサンプルです。
+
+このサンプルではEnclave内で複数のホスト名それぞれにループバックIPに割り当てて、
+それぞれのホスト(=ループバックIP)に対してフォワーダーとvsock-proxyの組を起動し
+ています。これによりEnclave内から複数のホストへアクセスできます。
+
+以下はサンプルをAWS Nitro Enclaveで実行するための手順です。
+
+1. Start a server2 in Enclave
+
+    ```console
+    $ cd http-over-vsock
+    $ make enclave2-run
+    ```
+
+2. Start vsock proxies on EC2
+
+    ```console
+    $ cd http-over-vsock/server2
+    $ ./run-vsock-proxies
+    ```
+
+3. Build a client
+
+    ```console
+    $ cd http-over-vsock/client
+    $ go build
+    ```
+
+4. Make requests
+
+    Get local response.
+
+    ```console
+    $ cd http-over-vsock/client
+    $ ./clieht http://16:1234/
+    ```
+
+    Get remote (google)
+
+    ```console
+    $ cd http-over-vsock/client
+    $ ./clieht http://16:1234/google
+    ```
+
+    You can GET from Google, Amazon, Facebook, and Twitter.
+
+    * Google <./clieht http://16:1234/google>
+    * Amazon <./clieht http://16:1234/amazon>
+    * Facebook <./clieht http://16:1234/facebook>
+    * Twitter <./clieht http://16:1234/twitter>
+
+5. (OPTIONAL) Show server logs
+
+    Open another terminal and run this:
+
+    ```console
+    $ cd http-over-vsock
+    $ make enclave2-console
+    ```
+
+    To terminate logs, interrupt with Ctrl-C or so.
+
+6. (OPTIONAL) Clean up
+
+    1. Stop vsock proxies which started at step 2.
+
+        ```console
+        $ killall vsock-proxy
+        ```
+
+    2. Stop server2 in Enclave
+
+        ```console
+        $ cd http-over-vsock
+        $ make enclave2-terminate
+        ```
+
 ## References
 
 * <https://man7.org/linux/man-pages/man7/vsock.7.html>
